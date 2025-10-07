@@ -11,16 +11,20 @@ export class PuppeterRepository implements IScraperRepository {
     try{
       await page.goto(url);
       await page.click('#main-content > div:first-child article > header > h2');
+      await new Promise(r => setTimeout(r, 5000))
       const data: Scraper = await page.evaluate(() => {
-        const title: any = document.querySelector('#main-content > header:first-child > div > h1')?.textContent;
-        //const title: string = "miau";
+        const title: string | undefined = document.querySelector('#main-content div:first-child h1')?.textContent;
+        const description: string | undefined = document.querySelector('#main-content div:first-child p')?.textContent;
+        const body: string | undefined = document.querySelector("#main-content div[data-dtm-region='articulo_cuerpo']")?.textContent;
+
         const content: Scraper = {
-          title: title
+          title,
+          description,
+          body
         }
 
         return content;
-
-      })
+      });
 
       return data;
     } catch(err) {
