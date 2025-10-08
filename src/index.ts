@@ -1,19 +1,27 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
-import { Request, Response } from 'express';
-import puppeteer from 'puppeteer';
 import { PuppeterRepository } from './infraestructure/scraper/puppeter.repository';
 import { ScraperUseCase } from './core/application/Scraper.use-case';
+import { connectToMongo } from './infraestructure/database/connection';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+async function runApp() {
 
-app.use(express.json());
+  await connectToMongo();
 
-const puppeterRepo = new PuppeterRepository();
-const scraperUseCase = new ScraperUseCase(puppeterRepo);
+  const puppeterRepo = new PuppeterRepository();
+  const scraperUseCase = new ScraperUseCase(puppeterRepo);
 
-app.listen(PORT, async () => {
-  console.log(`Server en puerto ${PORT}`);
-  const data = await scraperUseCase.fetchElPaisNews();
-  console.log(data);
-});
+  const app = express();
+  app.use(express.json());
+  
+  const PORT = process.env.PORT || 3000;
+
+  app.listen(PORT, async () => {
+    console.log(`Server en puerto ${PORT}`);
+    const data = await scraperUseCase.fetchElPaisNews();
+    //console.log(data);
+  });
+}
+
+runApp()
