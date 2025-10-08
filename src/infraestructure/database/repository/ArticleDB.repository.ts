@@ -1,8 +1,20 @@
 import puppeteer from "puppeteer";
-import { Article } from "../../core/domain/Article.entity";
-import { IScraperRepository } from "../../core/ports/Scraper.repository";
+import { Article } from "../../../core/domain/Article.entity";
+import { ArticleRepository } from "../../../core/ports/Article.repository";
+import ARTICLE_MODEL from "../models/ArticleDB.model";
 
-export class PuppeterRepository implements IScraperRepository {
+export class ArticleDBRepository implements ArticleRepository {
+
+  async saveElPaisArticles(): Promise<void> {
+    try {
+      const ARTICLES: Article[] = await this.getElPaisArticles();
+      await ARTICLE_MODEL.insertMany(ARTICLES);
+      console.log("Articles inserted succesfully");
+    } catch (error) {
+      console.error('Insert articles failed');
+      throw(error);
+    }
+  }
   
   async getElPaisArticles(): Promise<Article[]>{
     const browser = await puppeteer.launch({headless: false});
@@ -31,9 +43,9 @@ export class PuppeterRepository implements IScraperRepository {
           const description: string | undefined = document.querySelector('#main-content div:first-child p')?.textContent;
           const body: string | undefined = document.querySelector("#main-content div[data-dtm-region='articulo_cuerpo']")?.textContent;
           const content: Article = {
-            title,
-            description,
-            body
+            title: title || "Not found",
+            description: description || "Not found",
+            body: body || "Not found"
           }
 
           return content;
@@ -43,17 +55,12 @@ export class PuppeterRepository implements IScraperRepository {
         await new Promise(r => setTimeout(r, 5000));
       }
 
-      const content: Article = {
-        title: "hola",
-        description: "hola",
-        body: "hola"
-      }
       await browser.close();
 
       return articles;
-    } catch(err) {
+    } catch(error) {
       console.error('Proccess failed');
-      throw(err);
+      throw(error);
     } finally {
       await browser.close();
     }
