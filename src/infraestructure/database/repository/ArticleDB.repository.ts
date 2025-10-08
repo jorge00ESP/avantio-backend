@@ -5,6 +5,15 @@ import ARTICLE_MODEL from "../models/ArticleDB.model";
 
 export class ArticleDBRepository implements ArticleRepository {
 
+  async findAll(): Promise<Article[]> {
+    try {
+      return await ARTICLE_MODEL.find({});
+    } catch (error) {
+      console.error('Insert articles failed');
+      throw(error);
+    }
+  }
+
   async saveElPaisArticles(): Promise<void> {
     try {
       const ARTICLES: Article[] = await this.getElPaisArticles();
@@ -45,12 +54,14 @@ export class ArticleDBRepository implements ArticleRepository {
           const content: Article = {
             title: title || "Not found",
             description: description || "Not found",
-            body: body || "Not found"
+            body: body || "Not found",
+            url: ""
           }
 
           return content;
         });
 
+        data.url = links[i];
         articles.push(data);
         await new Promise(r => setTimeout(r, 5000));
       }

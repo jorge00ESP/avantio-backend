@@ -14,4 +14,8 @@ export class ArticleUseCase{
   async saveElPaisNews(): Promise<void> {
     await this.articleRepo.saveElPaisArticles();
   }
+
+  async getAll(): Promise<Article[]> {
+    return await this.articleRepo.findAll();
+  }
 }
