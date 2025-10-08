@@ -1,5 +1,5 @@
-import { Scraper } from "../domain/Scrapper.entity";
+import { Article } from "../domain/Article.entity";
 
 export interface IScraperRepository {
-  getNews(url: string): Promise<Scraper>;
+  getElPaisArticles(): Promise<Article[]>;
 }

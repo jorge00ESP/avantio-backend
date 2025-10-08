@@ -1,17 +1,13 @@
-import { Scraper } from "../domain/Scrapper.entity";
+import { Article } from "../domain/Article.entity";
 import { IScraperRepository } from "../ports/Scraper.repository";
 
 export class ScraperUseCase {
 
   constructor(private scraperRepo: IScraperRepository){}
 
-  async fetchNews(url: string): Promise<Scraper>{
-    if(!url || !url.startsWith('http') || !url.startsWith('https')){
-      throw new Error('URL not available');
-    }
+  async fetchElPaisNews(): Promise<Article[]>{
+    const articles: Article[] = await this.scraperRepo.getElPaisArticles();
 
-    const news = await this.scraperRepo.getNews(url);
-
-    return news;
+    return articles;
   }
 }

@@ -14,6 +14,6 @@ const scraperUseCase = new ScraperUseCase(puppeterRepo);
 
 app.listen(PORT, async () => {
   console.log(`Server en puerto ${PORT}`);
-  const data = await scraperUseCase.fetchNews("https://elpais.com")
+  const data = await scraperUseCase.fetchElPaisNews();
   console.log(data);
 });
