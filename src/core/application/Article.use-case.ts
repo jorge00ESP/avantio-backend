@@ -18,4 +18,8 @@ export class ArticleUseCase{
   async getAll(): Promise<Article[]> {
     return await this.articleRepo.findAll();
   }
+
+  async deleteById(id: string) {
+    return await this.articleRepo.deleteById(id);
+  }
 }

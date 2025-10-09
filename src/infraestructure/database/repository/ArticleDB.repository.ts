@@ -2,8 +2,55 @@ import puppeteer from "puppeteer";
 import { Article } from "../../../core/domain/Article.entity";
 import { ArticleRepository } from "../../../core/ports/Article.repository";
 import ARTICLE_MODEL from "../models/ArticleDB.model";
+import { DeleteResult } from "mongoose";
 
 export class ArticleDBRepository implements ArticleRepository {
+  
+  async findById(id: string): Promise<Article | null> {
+    try {
+      return await ARTICLE_MODEL.findById(id);
+    } catch (error) {
+      console.error('Find article by id failed');
+      throw(error);
+    }
+  }
+  
+  async findByUrl(url: string): Promise<Article | null> {
+    try {
+      return await ARTICLE_MODEL.findById({url: url});
+    } catch (error) {
+      console.error('Find article by url failed');
+      throw(error);
+    }
+  }
+  
+  async deleteAll(): Promise<DeleteResult> {
+    try {
+      return await ARTICLE_MODEL.deleteMany();
+    } catch (error) {
+      console.error('Find article by url failed');
+      throw(error);
+    }
+  }
+  
+  async deleteById(id: string): Promise<DeleteResult> {
+    try {
+      return await ARTICLE_MODEL.deleteOne({_id: id});
+    } catch (error) {
+      console.error('Find article by url failed');
+      throw(error);
+    }
+  }
+  
+  async deleteByUrl(url: string): Promise<DeleteResult> {
+    try {
+      return await ARTICLE_MODEL.deleteOne({url: url});
+    } catch (error) {
+      console.error('Find article by url failed');
+      throw(error);
+    }
+  }
+  
 
   async findAll(): Promise<Article[]> {
     try {

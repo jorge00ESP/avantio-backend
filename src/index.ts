@@ -19,7 +19,7 @@ async function runApp() {
 
   app.listen(PORT, async () => {
     console.log(`Server en puerto ${PORT}`);
-    const DATA = await ARTICLE_USE_CASE.saveElPaisNews();
+    const DATA = await ARTICLE_USE_CASE.deleteById("68e6cb3a2adeba81639ac062")
     console.log(DATA);
   });
 }
