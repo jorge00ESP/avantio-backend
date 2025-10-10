@@ -63,8 +63,8 @@ export class ArticleDBRepository implements ArticleRepository {
 
   async saveElPaisArticles(): Promise<void> {
     try {
-      const ARTICLES: Article[] = await this.getElPaisArticles();
-      await ARTICLE_MODEL.insertMany(ARTICLES);
+      const articles: Article[] = await this.getElPaisArticles();
+      await ARTICLE_MODEL.insertMany(articles);
       console.log("Articles inserted succesfully");
     } catch (error) {
       console.error('Insert articles failed');
@@ -91,9 +91,9 @@ export class ArticleDBRepository implements ArticleRepository {
       let articles: Article[] = [];
       console.log(links);
       
-      for (let i = 0; i < 5; i++) {
+      for (let i = 0; i < links.length; i++) {
         await page.goto(links[i]);
-        await new Promise(r => setTimeout(r, 3000));
+        await new Promise(r => setTimeout(r, 5000));
         const data: Article = await page.evaluate(() => {
           const title: string | undefined = document.querySelector('#main-content div:first-child h1')?.textContent;
           const description: string | undefined = document.querySelector('#main-content div:first-child p')?.textContent;
