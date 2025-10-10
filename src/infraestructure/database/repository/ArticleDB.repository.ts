@@ -10,7 +10,7 @@ export class ArticleDBRepository implements ArticleRepository {
     try {
       return await ARTICLE_MODEL.findById(id);
     } catch (error) {
-      console.error('Find article by id failed');
+      console.error('Find article by id ERROR');
       throw(error);
     }
   }
@@ -20,7 +20,7 @@ export class ArticleDBRepository implements ArticleRepository {
       const decodedUrl = decodeURIComponent(url);
       return await ARTICLE_MODEL.findOne({ url: decodedUrl });
     } catch (error) {
-      console.error('Find article by url failed');
+      console.error('Find article by url ERROR');
       throw(error);
     }
   }
@@ -29,7 +29,7 @@ export class ArticleDBRepository implements ArticleRepository {
     try {
       return await ARTICLE_MODEL.deleteMany();
     } catch (error) {
-      console.error('Find article by url failed');
+      console.error('Delete articles ERROR');
       throw(error);
     }
   }
@@ -38,7 +38,7 @@ export class ArticleDBRepository implements ArticleRepository {
     try {
       return await ARTICLE_MODEL.deleteOne({_id: id});
     } catch (error) {
-      console.error('Find article by url failed');
+      console.error('Delete article by url ERROR');
       throw(error);
     }
   }
@@ -48,7 +48,7 @@ export class ArticleDBRepository implements ArticleRepository {
       const decodedUrl = decodeURIComponent(url);
       return await ARTICLE_MODEL.deleteOne({ url: decodedUrl });
     } catch (error) {
-      console.error('Find article by url failed');
+      console.error('Delete article by url ERROR');
       throw(error);
     }
   }
@@ -58,7 +58,7 @@ export class ArticleDBRepository implements ArticleRepository {
     try {
       return await ARTICLE_MODEL.find({});
     } catch (error) {
-      console.error('Insert articles failed');
+      console.error('Insert articles ERROR');
       throw(error);
     }
   }
@@ -69,7 +69,7 @@ export class ArticleDBRepository implements ArticleRepository {
       await ARTICLE_MODEL.insertMany(articles);
       console.log("Articles inserted succesfully");
     } catch (error) {
-      console.error('Insert articles failed');
+      console.error('Insert articles ERROR');
       throw(error);
     }
   }
@@ -77,7 +77,7 @@ export class ArticleDBRepository implements ArticleRepository {
   async getElPaisArticles(): Promise<Article[]>{
     const browser = await puppeteer.launch({headless: false});
     const page = await browser.newPage();
-
+    
     try{
       await page.goto("https://elpais.com");
       await new Promise(r => setTimeout(r, 3000));
@@ -92,7 +92,6 @@ export class ArticleDBRepository implements ArticleRepository {
       });
       let articles: Article[] = [];
       console.log(links);
-      
       for (let i = 0; i < links.length; i++) {
         await page.goto(links[i]);
         await new Promise(r => setTimeout(r, 5000));
@@ -112,14 +111,13 @@ export class ArticleDBRepository implements ArticleRepository {
 
         data.url = links[i];
         articles.push(data);
-        await new Promise(r => setTimeout(r, 5000));
+        await new Promise( r => setTimeout(r, 5000));
       }
 
       await browser.close();
-
       return articles;
     } catch(error) {
-      console.error('Proccess failed');
+      console.error('Proccess ERROR');
       throw(error);
     } finally {
       await browser.close();

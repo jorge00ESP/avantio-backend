@@ -42,13 +42,12 @@ export class ArticleController {
 
   async deleteAll(req: Request, res: Response){
     try {
-      const VALUE = await this.deleteAllArticleUseCase.execute();
-      if(VALUE.deletedCount == 0){
-        return res.json(new MyResponse(400, "not deleted", VALUE));
-      }else {
-        return res.json(new MyResponse(200, "delete succesfully", VALUE));
+      const value = await this.deleteAllArticleUseCase.execute();
+      if (value.deletedCount == 0) {
+        return res.json(new MyResponse(400, "not deleted", value));
+      } else {
+        return res.json(new MyResponse(200, "delete succesfully", value));
       }
-
     } catch (error) {
       console.error("error deleting article");
       throw(error);
@@ -57,13 +56,12 @@ export class ArticleController {
 
   async deleteById(req: Request, res: Response){
     try {
-      const VALUE = await this.deleteByIdArticleUseCase.execute(req.params.id);
-      if(VALUE.deletedCount == 0){
-        return res.json(new MyResponse(400, "not deleted", VALUE));
-      }else {
-        return res.json(new MyResponse(200, "delete succesfully", VALUE));
+      const value = await this.deleteByIdArticleUseCase.execute(req.params.id);
+      if (value.deletedCount == 0) {
+        return res.json(new MyResponse(400, "not deleted", value));
+      } else {
+        return res.json(new MyResponse(200, "delete succesfully", value));
       }
-
     } catch (error) {
       console.error("error deleting article");
       throw(error);
@@ -73,13 +71,12 @@ export class ArticleController {
   async deleteByUrl(req: Request, res: Response){
     try {
       const url = encodeURIComponent(req.query.url as string);
-      const VALUE = await this.deleteByUrlArticleUseCase.execute(url);
-      if(VALUE.deletedCount == 0){
-        return res.json(new MyResponse(400, "not deleted", VALUE));
+      const value = await this.deleteByUrlArticleUseCase.execute(url);
+      if (value.deletedCount == 0) {
+        return res.json(new MyResponse(400, "not deleted", value));
       }else {
-        return res.json(new MyResponse(200, "delete succesfully", VALUE));
+        return res.json(new MyResponse(200, "delete succesfully", value));
       }
-
     } catch (error) {
       console.error("error deleting article");
       return res.json(new MyResponse(500, "server error", error));
@@ -88,13 +85,12 @@ export class ArticleController {
 
   async findAll(req: Request, res: Response){
     try {
-      const VALUE = await this.findAllArticleUseCase.execute();
-      if(VALUE.length == 0){
-        return res.json(new MyResponse(400, "not found anything", VALUE));
+      const value = await this.findAllArticleUseCase.execute();
+      if (value.length == 0) {
+        return res.json(new MyResponse(400, "not found anything", value));
       }else {
-        return res.json(new MyResponse(200, "all articles", VALUE));
+        return res.json(new MyResponse(200, "all articles", value));
       }
-
     } catch (error) {
       console.error("error getting articles");
       return res.json(new MyResponse(500, "server error", error));
@@ -103,13 +99,12 @@ export class ArticleController {
 
   async findById(req: Request, res: Response){
     try {
-      const VALUE = await this.findByIdArticleUseCase.execute(req.params.id);
-      if(!VALUE){
-        return res.json(new MyResponse(400, "not found", VALUE));
+      const value = await this.findByIdArticleUseCase.execute(req.params.id);
+      if (!value) {
+        return res.json(new MyResponse(400, "not found", value));
       }else {
-        return res.json(new MyResponse(200, "article found", VALUE));
+        return res.json(new MyResponse(200, "article found", value));
       }
-
     } catch (error) {
       console.error("error getting article");
       return res.json(new MyResponse(500, "server error", error));
@@ -119,13 +114,12 @@ export class ArticleController {
   async findByUrl(req: Request, res: Response){
     try {
       const url = encodeURIComponent(req.query.url as string);
-      const VALUE = await this.findByUrlArticleUseCase.execute(url);
-      if(!VALUE){
-        return res.json(new MyResponse(400, "not found", VALUE));
+      const value = await this.findByUrlArticleUseCase.execute(url);
+      if (!value) {
+        return res.json(new MyResponse(400, "not found", value));
       }else {
-        return res.json(new MyResponse(200, "article found", VALUE));
+        return res.json(new MyResponse(200, "article found", value));
       }
-
     } catch (error) {
       console.error("error getting article");
       return res.json(new MyResponse(500, "server error", error));
@@ -134,9 +128,8 @@ export class ArticleController {
 
   async getElPaisArticle(req: Request, res: Response){
     try {
-      const VALUE = await this.getElPaisArticlesUseCase.execute();
-
-      return res.json(new MyResponse(200, "article found", VALUE));
+      const value = await this.getElPaisArticlesUseCase.execute();
+      return res.json(new MyResponse(200, "article found", value));
     } catch (error) {
       console.error("error getting article");
       return res.json(new MyResponse(500, "server error", error));
@@ -145,13 +138,11 @@ export class ArticleController {
 
   async savetElPaisArticle(req: Request, res: Response){
     try {
-      const VALUE = await this.saveElPaisArticlesUseCase.execute();
-
-      return res.json(new MyResponse(200, "articles saved", VALUE));
+      const value = await this.saveElPaisArticlesUseCase.execute();
+      return res.json(new MyResponse(200, "articles saved", value));
     } catch (error) {
       console.error("error getting article");
       return res.json(new MyResponse(500, "server error", error));
     }
   }
-
 }
