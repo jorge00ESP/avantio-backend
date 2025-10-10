@@ -72,7 +72,8 @@ export class ArticleController {
 
   async deleteByUrl(req: Request, res: Response){
     try {
-      const VALUE = await this.deleteByUrlArticleUseCase.execute(req.params.url);
+      const url = encodeURIComponent(req.query.url as string);
+      const VALUE = await this.deleteByUrlArticleUseCase.execute(url);
       if(VALUE.deletedCount == 0){
         return res.json(new MyResponse(400, "not deleted", VALUE));
       }else {
@@ -117,7 +118,8 @@ export class ArticleController {
 
   async findByUrl(req: Request, res: Response){
     try {
-      const VALUE = await this.findByUrlArticleUseCase.execute(req.params.url);
+      const url = encodeURIComponent(req.query.url as string);
+      const VALUE = await this.findByUrlArticleUseCase.execute(url);
       if(!VALUE){
         return res.json(new MyResponse(400, "not found", VALUE));
       }else {
@@ -145,7 +147,7 @@ export class ArticleController {
     try {
       const VALUE = await this.saveElPaisArticlesUseCase.execute();
 
-      return res.json(new MyResponse(200, "article found", VALUE));
+      return res.json(new MyResponse(200, "articles saved", VALUE));
     } catch (error) {
       console.error("error getting article");
       return res.json(new MyResponse(500, "server error", error));

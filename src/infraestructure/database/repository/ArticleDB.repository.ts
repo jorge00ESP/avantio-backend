@@ -17,7 +17,8 @@ export class ArticleDBRepository implements ArticleRepository {
   
   async findByUrl(url: string): Promise<Article | null> {
     try {
-      return await ARTICLE_MODEL.findById({url: url});
+      const decodedUrl = decodeURIComponent(url);
+      return await ARTICLE_MODEL.findOne({ url: decodedUrl });
     } catch (error) {
       console.error('Find article by url failed');
       throw(error);
@@ -44,7 +45,8 @@ export class ArticleDBRepository implements ArticleRepository {
   
   async deleteByUrl(url: string): Promise<DeleteResult> {
     try {
-      return await ARTICLE_MODEL.deleteOne({url: url});
+      const decodedUrl = decodeURIComponent(url);
+      return await ARTICLE_MODEL.deleteOne({ url: decodedUrl });
     } catch (error) {
       console.error('Find article by url failed');
       throw(error);
